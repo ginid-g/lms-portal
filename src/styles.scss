@@ -5,3 +5,11 @@
 
 /* Importing Datepicker SCSS file. */
 @import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+@import "~ng-snotify/styles/dark";
+
+@import "assets/styles/styles.scss";
+
+body {
+  background: #f4f5fa;
+}

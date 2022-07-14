@@ -1,16 +1,25 @@
 <div class="modal-header">
-  <h4 class="modal-title">Create New Class</h4>
+  <h4 class="modal-title">
+    {{ id ? "Edit Class" : "Create New Class" }}
+  </h4>
 </div>
-
-<div class="modal-body">
-  <form>
+<form (submit)="save()">
+  <div class="modal-body">
     <div class="form-group">
       <label for="classname">Class name</label>
-      <input type="text" name="classname" id="classname" class="form-control" />
+      <input
+        type="text"
+        name="classname"
+        id="classname"
+        class="form-control"
+        [(ngModel)]="className"
+      />
     </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-default" type="button">Cancel</button>
-  <button class="btn btn-primary" type="submit">Save</button>
-</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" type="button" (click)="close()">
+      Cancel
+    </button>
+    <button class="btn btn-primary" type="submit">Save</button>
+  </div>
+</form>

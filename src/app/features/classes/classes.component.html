@@ -9,11 +9,13 @@
         </button>
       </div>
       <div class="card-body">
-        <table class="table">
-          <tr>
-            <th>Class</th>
-            <th>Action</th>
-          </tr>
+        <table class="table simple-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
           <tbody *ngIf="classes && classes.length">
             <tr *ngFor="let cls of classes">
@@ -21,8 +23,15 @@
                 {{ cls.name }}
               </td>
               <td>
-                <i class="las la-pen"></i>
-                <i class="las la-trash"></i>
+                <button
+                  class="btn btn-action"
+                  (click)="showClassModal(cls._id, cls.name)"
+                >
+                  <i class="las la-pen"></i>
+                </button>
+                <button class="btn btn-action" (click)="deleteClass(cls._id)">
+                  <i class="las la-trash"></i>
+                </button>
               </td>
             </tr>
           </tbody>

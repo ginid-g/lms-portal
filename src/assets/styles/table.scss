@@ -1,0 +1,26 @@
+.simple-table {
+  font-size: 12px;
+  border-collapse: collapse;
+  thead {
+    th {
+      text-transform: uppercase;
+      border: none;
+    }
+  }
+
+  td,
+  td {
+    padding: 8px;
+    vertical-align: middle;
+    border: none;
+  }
+
+  tbody {
+    tr {
+      border-top: 1px solid #007bff3d;
+    }
+    tr:nth-child(odd) {
+      background-color: #007bff12;
+    }
+  }
+}

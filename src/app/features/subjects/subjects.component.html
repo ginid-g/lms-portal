@@ -1,1 +1,46 @@
-<p>subjects works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Subjects</h4>
+
+        <button class="btn btn-primary" (click)="showClassModal()">
+          <i class="las la-plus"></i> Create Subject
+        </button>
+      </div>
+      <div class="card-body">
+        <table class="table simple-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Class</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="subjects && subjects.length">
+            <tr *ngFor="let sub of subjects">
+              <td>
+                {{ sub.name }}
+              </td>
+              <td>
+                {{ sub.class?.name }}
+              </td>
+              <td>
+                <button
+                  class="btn btn-action"
+                  (click)="showClassModal(sub._id, sub.name, sub.classId)"
+                >
+                  <i class="las la-pen"></i>
+                </button>
+                <button class="btn btn-action" (click)="deleteClass(sub._id)">
+                  <i class="las la-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

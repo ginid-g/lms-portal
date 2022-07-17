@@ -1,6 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
+
+$theme-colors: (
+  "primary": #f56366,
+  "secondary": #b23cfd,
+  "success": #00b74a,
+  "info": #39c0ed,
+  "warning": #ffa900,
+  "danger": #f93154,
+  "light": #fbfbfb,
+  "dark": #262626,
+);
+
 @import "~bootstrap/scss/bootstrap";
 
 /* Importing Datepicker SCSS file. */
@@ -11,5 +23,5 @@
 @import "assets/styles/styles.scss";
 
 body {
-  background: #f4f5fa;
+  background: #ffffff;
 }

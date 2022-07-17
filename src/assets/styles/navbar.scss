@@ -1,0 +1,14 @@
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .nav-link.active {
+  color: #f56366 !important;
+  background: #fee8e8;
+  border-radius: 10px;
+  width: 100px;
+  text-align: center;
+}
+
+.navbar-nav .nav-link {
+  color: white !important;
+}

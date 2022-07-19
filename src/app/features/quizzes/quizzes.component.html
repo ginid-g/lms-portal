@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Quizes</h4>
+
+        <button class="btn btn-primary" (click)="showClassModal()">
+          <i class="las la-plus"></i> Create Subject
+        </button>
+      </div>
+      <div class="card-body">
+        <table class="table simple-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Subject</th>
+              <th>Class</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="quizzes && quizzes.length">
+            <tr *ngFor="let quiz of quizzes">
+              <td>
+                {{ quiz.title }}
+              </td>
+              <td>
+                {{ quiz.subject?.name }}
+              </td>
+              <td>
+                {{ quiz.class?.name }}
+              </td>
+              <td>
+                <button
+                  class="btn btn-action"
+                  (click)="showClassModal(quiz._id)"
+                >
+                  <i class="las la-pen"></i>
+                </button>
+                <button class="btn btn-action" (click)="deleteClass(quiz._id)">
+                  <i class="las la-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

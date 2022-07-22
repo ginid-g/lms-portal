@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{ id ? "Edit Quiz" : "Create New Quiz" }}
+  </h4>
+</div>
+
+<form (submit)="save()">
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-primary" type="button" (click)="close()">
+      Cancel
+    </button>
+    <button class="btn btn-primary" type="submit">Save</button>
+  </div>
+</form>

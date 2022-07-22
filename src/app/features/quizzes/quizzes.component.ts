@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { QuizFormComponent } from './quiz-form/quiz-form.component';
+
 import { QuizService } from '@services/quiz/quiz.service';
 
 import { UiService } from '@services/ui/ui.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-quizzes',
@@ -12,7 +15,11 @@ import { UiService } from '@services/ui/ui.service';
 export class QuizzesComponent implements OnInit {
   quizzes: any = [];
 
-  constructor(private quizService: QuizService, private uiService: UiService) {}
+  constructor(
+    private quizService: QuizService,
+    private uiService: UiService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit(): void {
     this.getAll();
@@ -32,7 +39,20 @@ export class QuizzesComponent implements OnInit {
     );
   }
 
-  showClassModal(id: string | null = null) {}
+  showQuizModal(id: string | null = null) {
+    const modal: BsModalRef = this.modalService.show(QuizFormComponent, {
+      class: 'modal-xl',
+      keyboard: false,
+      backdrop: 'static',
+    });
+    modal.content.id = id;
+
+    modal.content.onClose.subscribe((res: boolean) => {
+      if (res) {
+        this.getAll();
+      }
+    });
+  }
 
   deleteClass(id: string) {
     this.uiService

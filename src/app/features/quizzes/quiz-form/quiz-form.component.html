@@ -4,12 +4,178 @@
   </h4>
 </div>
 
-<form (submit)="save()">
-  <div class="modal-body"></div>
+<form #quizForm="ngForm" (submit)="save()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="class">Class</label>
+          <select
+            name="class"
+            id="class"
+            class="form-control"
+            required
+            [(ngModel)]="data.classId"
+          >
+            <option *ngFor="let cls of classes" [value]="cls._id">
+              {{ cls.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select
+            name="subject"
+            id="subject"
+            class="form-control"
+            required
+            [(ngModel)]="data.subjectId"
+          >
+            <option *ngFor="let sub of subjects" [value]="sub._id">
+              {{ sub.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            class="form-control"
+            required
+            [(ngModel)]="data.title"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz Questions -->
+    <div class="row">
+      <ng-container *ngIf="data.questions && data.questions.length">
+        <div
+          class="col-md-12 border-bottom border-top py-2"
+          *ngFor="let question of data.questions; let i = index"
+        >
+          <div class="form-group">
+            <label for="question_{{ i }}"
+              ><span>{{ i + 1 }})</span> Write Question</label
+            >
+            <textarea
+              name="question_{{ i }}"
+              id="question_{{ i }}"
+              class="form-control"
+              required
+              [(ngModel)]="question.question"
+            ></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="option_a_{{ i }}">Write Option A</label>
+                <textarea
+                  name="option_a_{{ i }}"
+                  id="option_a_{{ i }}"
+                  class="form-control"
+                  required
+                  [(ngModel)]="question.a"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="option_b_{{ i }}">Write Option B</label>
+                <textarea
+                  name="option_b_{{ i }}"
+                  id="option_b_{{ i }}"
+                  class="form-control"
+                  required
+                  [(ngModel)]="question.b"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="option_c_{{ i }}">Write Option C</label>
+                <textarea
+                  name="option_c_{{ i }}"
+                  id="option_c_{{ i }}"
+                  class="form-control"
+                  required
+                  [(ngModel)]="question.c"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="option_d_{{ i }}">Write Option D</label>
+                <textarea
+                  name="option_d_{{ i }}"
+                  id="option_d_{{ i }}"
+                  class="form-control"
+                  required
+                  [(ngModel)]="question.d"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="correct_{{ i }}">Select Correct Answer</label>
+                <select
+                  name="correct_{{ i }}"
+                  id="correct_{{ i }}"
+                  class="form-control"
+                  required
+                  [(ngModel)]="question.correctOption"
+                >
+                  <option value="a">Option A</option>
+                  <option value="b">Option B</option>
+                  <option value="c">Option C</option>
+                  <option value="d">Option D</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="removeQuestion(i)"
+              >
+                Remove this Question
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="col-md-10 mx-auto">
+        <button
+          type="button"
+          class="btn btn-outline-primary d-block w-100 mx-auto my-2"
+          (click)="addQuestion()"
+        >
+          Add Question
+        </button>
+      </div>
+    </div>
+    <!-- End Quiz Questions -->
+  </div>
   <div class="modal-footer">
     <button class="btn btn-outline-primary" type="button" (click)="close()">
       Cancel
     </button>
-    <button class="btn btn-primary" type="submit">Save</button>
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="quizForm.form.invalid"
+    >
+      Save
+    </button>
   </div>
 </form>

@@ -44,8 +44,10 @@ export class QuizzesComponent implements OnInit {
       class: 'modal-xl',
       keyboard: false,
       backdrop: 'static',
+      initialState: {
+        id: id,
+      },
     });
-    modal.content.id = id;
 
     modal.content.onClose.subscribe((res: boolean) => {
       if (res) {

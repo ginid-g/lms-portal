@@ -4,7 +4,13 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 
 import { UiService } from '@services/ui/ui.service';
 
-import { SubjectService } from '@services/subject/subject.service';
+import { SubjectService, SubjectType } from '@services/subject/subject.service';
+
+import { ClassService, ClassType } from '@services/class/class.service';
+
+import { QuizService, QuizType } from '@services/quiz/quiz.service';
+
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-quiz-form',
@@ -13,25 +19,49 @@ import { SubjectService } from '@services/subject/subject.service';
 })
 export class QuizFormComponent implements OnInit {
   @Output() onClose: EventEmitter<boolean> = new EventEmitter();
-  @Input() id: string | undefined = undefined;
+  @Input() id: string | null = null;
 
-  subjects: any[] = [];
+  subjects: SubjectType[] = [];
+  classes: ClassType[] = [];
+
+  data: QuizType | any = {};
 
   constructor(
     private subjectService: SubjectService,
+    private quizService: QuizService,
+    private classService: ClassService,
     private modalRef: BsModalRef,
     private uiService: UiService
   ) {}
 
   ngOnInit(): void {
-    this.getAllSubjects();
+    this.getOptions();
+
+    if (this.id) {
+      this.uiService.showLoading();
+      this.quizService.getById(this.id).subscribe(
+        (res: any) => {
+          this.uiService.hideLoading();
+          this.data = res.data;
+        },
+        (err) => {
+          this.uiService.hideLoading();
+          this.uiService.error(err.error.error);
+        }
+      );
+    }
   }
 
-  getAllSubjects() {
+  getOptions() {
     this.uiService.showLoading();
-    this.subjectService.getAll().subscribe(
+
+    forkJoin({
+      subjects: this.subjectService.getAll(),
+      classes: this.classService.getAll(),
+    }).subscribe(
       (res: any) => {
-        this.subjects = res.data;
+        this.subjects = res.subjects.data;
+        this.classes = res.classes.data;
         this.uiService.hideLoading();
       },
       (err) => {
@@ -46,5 +76,34 @@ export class QuizFormComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  save() {}
+  removeQuestion(index: number) {
+    this.data.questions.splice(index, 1);
+  }
+
+  addQuestion() {
+    if (this.data.questions && this.data.questions.length) {
+      this.data.questions.push({});
+    } else {
+      this.data.questions = [{}];
+    }
+  }
+
+  save() {
+    const apiCall = this.data._id
+      ? this.quizService.edit(this.data)
+      : this.quizService.create(this.data);
+
+    this.uiService.showLoading();
+    apiCall.subscribe(
+      () => {
+        this.uiService.hideLoading();
+        this.uiService.success('Quiz Saved Successfully');
+        this.close(true);
+      },
+      (err) => {
+        this.uiService.hideLoading();
+        this.uiService.error(err.error.error);
+      }
+    );
+  }
 }
